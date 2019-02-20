@@ -15,7 +15,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     
     var dotNodes = [SCNNode]()
-    
     var textNode = SCNNode()
     
     override func viewDidLoad() {
@@ -89,18 +88,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let b = end.position.y - start.position.y
         let c = end.position.z - start.position.z
         
+        // distance = √ ((x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2)
         let distance = sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2))
         
+        let result = (distance * 100.0).rounded()/100
         
-        // distance = √ ((x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2)
-        updateText(text: String(distance), atPosition: end.position)
+        updateText(text: String(result), atPosition: end.position)
     }
     
     func updateText(text: String, atPosition position: SCNVector3) {
         
         textNode.removeFromParentNode()
         
-        let textGeometry = SCNText(string: text, extrusionDepth: 1.0)
+        let textGeometry = SCNText(string: "\(text) m", extrusionDepth: 1.0)
         
         textGeometry.firstMaterial?.diffuse.contents = UIColor.red
         
@@ -111,7 +111,5 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         textNode.scale = SCNVector3(0.01, 0.01, 0.01)
         
         sceneView.scene.rootNode.addChildNode(textNode)
-        
     }
-    
 }
